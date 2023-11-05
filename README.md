@@ -42,8 +42,8 @@ pip install -r requirements.txt
 
 ### Running
 
-```
-usage: bert_question_answering_demo.py [-h] -i INPUT
+```bash
+usage: resume_interview_tool.py [-h] -i INPUT
 
 Options:
   -h, --help            Show this help message and exit.
@@ -52,12 +52,12 @@ Options:
 ```
 
 #### Example CMD Line
-```python
+```bash
 python3 resume_interview_tool.py -i https://dynamicfolio.vercel.app
 ```
 You should input the candidate's resume or portfolio page and type the questions. 
 
-```python
+```bash
 python3 resume_interview_tool.py -i https://dynamicfolio.vercel.app
 
 	Write a question (q to exit): Tell me one of your projects bulit with Java.
