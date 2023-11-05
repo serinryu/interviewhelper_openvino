@@ -2,6 +2,8 @@
 
 ## Project Overview
 
+![example](https://github.com/serinryu/interviewhelper_openvino/assets/74564995/c6ec41f2-e8c9-451c-8480-12867ad931e0)
+
 The Resume-Based Interview Preparation Tool is a software application designed to streamline the interview process by helping interviewers generate relevant and meaningful questions based on a candidate's resume or portfolio page. This tool aims to make interviewers' jobs easier and improve the quality of interviews by focusing on deeper and more insightful inquiries.
 
 ## Features
@@ -20,12 +22,13 @@ The Resume-Based Interview Preparation Tool is a software application designed t
   - Tokenization occurs using the BERT tokenizer and the enclosed vocab.txt dictionary file. Input is to be lower-cased before tokenizing.
   - However, the model is very limited and sensitive for the input. Please put appropriate format and amount of input later. Otherwise, the algorithm will not be able to find it. 
   - For more information, refer to the Input section of [BERT model documentation](https://github.com/openvinotoolkit/open_model_zoo/tree/master/models/intel/bert-small-uncased-whole-word-masking-squad-int8-0002#input).
+- **Planning to support more models for stability!**
 
 ## Getting Started
 
 ### Prerequisites
 
-- Python
+- Python 3
 - Install required packages (list them in a requirements.txt file)
 
 ### Installation
