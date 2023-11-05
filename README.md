@@ -1,12 +1,12 @@
 # Resume-Based Interview Preparation Tool
 
-## Project Overview
-
 ![example](https://github.com/serinryu/interviewhelper_openvino/assets/74564995/c6ec41f2-e8c9-451c-8480-12867ad931e0)
 
-The Resume-Based Interview Preparation Tool is a software application designed to streamline the interview process by helping interviewers generate relevant and meaningful questions based on a candidate's resume or portfolio page. This tool aims to make interviewers' jobs easier and improve the quality of interviews by focusing on deeper and more insightful inquiries.
+**The Resume-Based Interview Preparation Tool** is a software application designed to streamline the interview process by helping interviewers generate relevant and meaningful questions based on a candidate's resume or portfolio page. 
 
-## Features
+This tool aims to make interviewers' jobs easier and improve the quality of interviews by focusing on deeper and more insightful inquiries.
+
+## 📁 Features
 
 - **Resume Analysis**: The tool allows interviewers to upload a candidate's resume or portfolio page, which is then analyzed to extract relevant information.
 
@@ -16,7 +16,7 @@ The Resume-Based Interview Preparation Tool is a software application designed t
 
 - **Customization**: Users can tailor the generated questions to their specific needs or preferences, allowing for personalized interview preparation.
 
-## Supported Models
+## 🦾 Supported Models
 - [`bert-small-uncased-whole-word-masking-squad-int8-0002`](https://github.com/openvinotoolkit/open_model_zoo/tree/master/models/intel/bert-small-uncased-whole-word-masking-squad-int8-0002#bert-small-uncased-whole-word-masking-squad-int8-0002) is supported by this program.
   - This is a small BERT-large like model distilled and quantized to INT8 on SQuAD v1.1 training set from larger BERT-large model (bert-large-uncased-whole-word-masking) provided by the Transformers library) and tuned on SQuAD v1.1 training set. 
   - Tokenization occurs using the BERT tokenizer and the enclosed vocab.txt dictionary file. Input is to be lower-cased before tokenizing.
@@ -24,7 +24,7 @@ The Resume-Based Interview Preparation Tool is a software application designed t
   - For more information, refer to the Input section of [BERT model documentation](https://github.com/openvinotoolkit/open_model_zoo/tree/master/models/intel/bert-small-uncased-whole-word-masking-squad-int8-0002#input).
 - **Planning to support more models for stability!**
 
-## Getting Started
+## 🕵️ Getting Started
 
 ### Prerequisites
 
@@ -69,7 +69,7 @@ python3 resume_interview_tool.py -i https://dynamicfolio.vercel.app
 	Time: 0.14s
 ```
 
-Sample questions:
+**Sample questions:**
 * Which tech stack do you have?
 * When you interned at Intel in 2023, what were your primary responsibilities and tasks?
 * Did you receive any academic awards or honors in high school for outstanding grades?
