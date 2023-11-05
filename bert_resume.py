@@ -64,7 +64,6 @@ def load_context(sources):
     # Produce one big context string.
     return "\n".join(paragraphs)
 
-
 # A generator of a sequence of inputs.
 def prepare_input(question_tokens, context_tokens):
     # A length of question in tokens.
@@ -195,28 +194,27 @@ def get_best_answer(question, context):
     # Return the part of the context, which is already an answer.
     return context[answer[1]:answer[2]], answer[0]
 
-def run_question_answering(sources, example_question=None):
-    print(f"Context: {sources}", f"Question: {example_question}", flush=True)
+def run_interview(sources, default_question=None):
     context = load_context(sources)
 
     if len(context) == 0:
         print("Error: Empty context or outside paragraphs")
         return
 
-    if example_question is not None:
+    if default_question is not None:
         start_time = time.perf_counter()
-        answer, score = get_best_answer(question=example_question, context=context)
+        answer, score = get_best_answer(question=default_question, context=context)
         end_time = time.perf_counter()
 
-        print(f"Question: {example_question}")
+        print(f"Question: {default_question}")
         print(f"Answer: {answer}")
         print(f"Score: {score:.2f}")
         print(f"Time: {end_time - start_time:.2f}s")
     else:
         while True:
-            question = input()
+            question = input('\n\tWrite a question (q to exit): ')
             # if no question - break
-            if question == "":
+            if question == "q":
                 break
 
             # measure processing time
@@ -224,15 +222,13 @@ def run_question_answering(sources, example_question=None):
             answer, score = get_best_answer(question=question, context=context)
             end_time = time.perf_counter()
 
-            print(f"Question: {question}")
-            print(f"Answer: {answer}")
-            print(f"Score: {score:.2f}")
-            print(f"Time: {end_time - start_time:.2f}s")
+            print(f"\tAnswer: {answer}")
+            print(f"\tScore: {score:.2f}")
+            print(f"\tTime: {end_time - start_time:.2f}s")
 
 def main():
     args = build_argparser().parse_args()
-    question = "What is your name?"
-    run_question_answering(args.input, example_question=question)
+    run_interview(args.input)
 
 if __name__ == '__main__':
     sys.exit(main() or 0)
