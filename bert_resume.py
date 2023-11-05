@@ -26,11 +26,10 @@ def build_argparser():
 
 
 ###### Model
-model_path = Path('model/bert-small-uncased-whole-word-masking-squad-int8-0002.xml')
-core = ov.Core()
-model = core.read_model(model_path)
+model = Path('model/bert-small-uncased-whole-word-masking-squad-int8-0002.xml')
 
 core = ov.Core()
+# model = core.read_model(model_path)
 
 compiled_model = core.compile_model(model=model, device_name='CPU')
 
