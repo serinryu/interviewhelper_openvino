@@ -24,13 +24,11 @@ def build_argparser():
     return parser
 
 
-
 ###### Model
+
 model = Path('model/bert-small-uncased-whole-word-masking-squad-int8-0002.xml')
 
 core = ov.Core()
-# model = core.read_model(model_path)
-
 compiled_model = core.compile_model(model=model, device_name='CPU')
 
 input_keys = list(compiled_model.inputs)
@@ -38,13 +36,12 @@ output_keys = list(compiled_model.outputs)
 input_size = compiled_model.input(0).shape[1]
 
 
-###### Processing input data
+###### PreProcessing
 
-# Download the vocabulary
+# To provide the proper input, you need the vocabulary for mapping.
 vocab_file_path = Path('data/vocab.txt')
 vocab = tokens.load_vocab_file(str(vocab_file_path))
 
-# Define special tokens.
 cls_token = vocab["[CLS]"]
 pad_token = vocab["[PAD]"]
 sep_token = vocab["[SEP]"]
@@ -65,10 +62,9 @@ def load_context(sources):
     return "\n".join(paragraphs)
 
 # A generator of a sequence of inputs.
+# The main input consists of two parts : question tokens and context tokens separated by some special tokens.
 def prepare_input(question_tokens, context_tokens):
-    # A length of question in tokens.
     question_len = len(question_tokens)
-    # The context part size.
     context_len = input_size - question_len - 3
 
     if context_len < 16:
@@ -76,9 +72,7 @@ def prepare_input(question_tokens, context_tokens):
 
     # Take parts of the context with overlapping by 0.5.
     for start in range(0, max(1, len(context_tokens) - context_len), context_len // 2):
-        # A part of the context.
         part_context_tokens = context_tokens[start:start + context_len]
-        # The input: a question and the context separated by special tokens.
         input_ids = [cls_token] + question_tokens + [sep_token] + part_context_tokens + [sep_token]
         # 1 for any index if there is no padding token, 0 otherwise.
         attention_mask = [1] * len(input_ids)
@@ -118,6 +112,10 @@ def pad(input_ids, attention_mask, token_type_ids):
 
     return (input_ids, attention_mask, token_type_ids), diff_input_size
 
+
+###### PostProcessing
+
+# Use the softmax function to get the probability distribution
 def postprocess(output_start, output_end, question_tokens, context_tokens_start_end, padding, start_idx):
 
     def get_score(logits):
@@ -145,8 +143,6 @@ def postprocess(output_start, output_end, question_tokens, context_tokens_start_
 
     return max_score, max_start, max_end
 
-
-# Based on https://github.com/openvinotoolkit/open_model_zoo/blob/bf03f505a650bafe8da03d2747a8b55c5cb2ef16/demos/common/python/openvino/model_zoo/model_api/models/bert.py#L188
 def find_best_answer_window(start_score, end_score, context_start_idx, context_end_idx):
     context_len = context_end_idx - context_start_idx
     score_mat = np.matmul(
@@ -163,6 +159,9 @@ def find_best_answer_window(start_score, end_score, context_start_idx, context_e
 
     return max_score, max_s, max_e
 
+
+# Create a list of tokens from the context and the question and
+# Find the best answer by trying different parts of the context
 def get_best_answer(question, context):
     # Convert the context string to tokens.
     context_tokens, context_tokens_start_end = tokens.text_to_tokens(text=context.lower(),
